@@ -1,3 +1,68 @@
+<script setup>
+import { ref } from 'vue'
+import useAPI from '@/composables/useAPI'
+
+
+
+const { instance } = useAPI()
+
+
+
+const empFirstName = ref('')
+const empLastName = ref('')
+const empUserName = ref('')
+
+const empTitle = ref('')
+const empQuote = ref('')
+
+
+
+
+const addEmployee = async () => {
+    const { data } = await instance.post('api/employees/create', {
+        userName: empUserName.value, 
+        firstName: empFirstName.value, 
+        lastName: empLastName.value, 
+        title: empTitle.value,
+        quote : empQuote.value
+    })
+
+    var inputs = document.querySelectorAll('input')
+
+inputs.forEach(singleInput => singleInput.value = '')
+
+
+}
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
 <template>
-    Settings
+   <form class="mx-auto mt-10 flex max-w-md flex-col gap-4 rounded-md bg-white p-8 shadow-lg " @submit.prevent="addEmployee">
+
+    <input type = "text" placeholder="Username" v-model="empUserName" class="rounded-md px-4 py-2 text-xl ring-1 ring-blue-400"/>
+    <input type = "text" placeholder="First name " v-model="empFirstName" class="rounded-md px-4 py-2 text-xl ring-1 ring-blue-400"/>
+    <input type = "text" placeholder="Last name" v-model="empLastName" class="rounded-md px-4 py-2 text-xl ring-1 ring-blue-400"/>
+    <input type = "text" placeholder="Job title" v-model="empTitle" class="rounded-md px-4 py-2 text-xl ring-1 ring-blue-400"/>
+    <input type = "text" placeholder="Quote" v-model="empQuote" class="rounded-md px-4 py-2 text-xl ring-1 ring-blue-400"/>
+
+    <button type="submit" class="bg-green-400 px-4 py-2">Submit</button>
+
+   </form>
 </template>
